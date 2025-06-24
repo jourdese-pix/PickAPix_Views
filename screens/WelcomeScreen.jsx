@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, Pressable, Animated } from 'react-native'
 import React, { useState } from 'react'
+import QRProfile from './QRProfile';
 
 const ComponentButton = ({ 
     title, 
@@ -61,7 +62,7 @@ const WelcomeScreen = ({ navigation }) => {
     const [longPressedIndex, setLongPressedIndex] = useState(null);
 
     const components = [
-        'View', 'Text','QRCode - Business Card'
+        'QRCode', 'Template'
     ];
 
     return (
@@ -81,8 +82,8 @@ const WelcomeScreen = ({ navigation }) => {
             onLongPress={() => setLongPressedIndex(index)}
             onPressOut={() => setLongPressedIndex(null)}
             animationDuration={400}
-            activeColor={index % 2 === 0 ? '#3700b3' : '#2196F3'}
-            inactiveColor={index % 2 === 0 ? '#6200ee' : '#1976D2'}
+            activeColor={index % 2 === 0 ? '#3700b3' : '#3700b3'}
+            inactiveColor={index % 2 === 0 ? '#16733e' : '#16733e'}
             buttonStyle={{
                 marginHorizontal: 8,
                 borderRadius: expandedIndex === index ? 16 : 12,
@@ -147,7 +148,7 @@ const WelcomeScreen = ({ navigation }) => {
                 </Pressable>
             </>
         )}
-        {component === 'QRCode - Business Card' && (
+        {component === 'QRCode' && (
             <>
                 <Text style={{ color: '#333', fontSize: 15, marginBottom: 8 }}>
                     This is the QRCode - Business Card component.
@@ -159,9 +160,36 @@ const WelcomeScreen = ({ navigation }) => {
                         borderRadius: 8,
                         alignItems: 'center',
                     }}
-                    onPress={() => navigation.navigate('QRProfile')}
+                    onPress={() =>
+                        navigation.navigate('QRProfile', {
+                        qrCodeUri: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://yourwebsite.com',
+                        name: 'Jourdese Palacio',
+                        title: 'Mobile Developer',
+                        phone: '+63 912 345 6789',
+                        email: 'jourdesepalacio@pixelmine.org',
+                        website: 'https://pixelmine.org',
+                        })
+                    }
                 >
-                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Go to QR Profile</Text>
+                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Go to QR Profile - Business Card</Text>  
+                </Pressable>
+            </>
+        )}
+                {component === 'Template' && (
+            <>
+                <Text style={{ color: '#333', fontSize: 15, marginBottom: 8 }}>
+                    Template
+                </Text>
+                <Pressable
+                    style={{
+                        backgroundColor: '#3700b3',
+                        padding: 10,
+                        borderRadius: 8,
+                        alignItems: 'center',
+                    }}
+                    onPress={() => navigation.navigate('Template')}
+                >
+                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Go to Template</Text>
                 </Pressable>
             </>
         )}
