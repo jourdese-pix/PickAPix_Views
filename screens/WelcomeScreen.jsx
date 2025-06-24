@@ -171,7 +171,7 @@ const WelcomeScreen = ({ navigation }) => {
                         })
                     }
                 >
-                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Go to QR Profile - Business Card</Text>  
+                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Design 1 - Business Card</Text>  
                 </Pressable>
             </>
         )}
