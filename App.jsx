@@ -14,7 +14,6 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import ViewScreen from './screens/ViewScreen';
 import TextScreen from './screens/TextScreen';        
 import QRProfile from './screens/QRProfile';
-import Template from './screens/Template';
 const App = () => {
   return (
     <NavigationContainer>
@@ -38,7 +37,6 @@ const App = () => {
         <Stack.Screen name="View" component={ViewScreen} />
         <Stack.Screen name="Text" component={TextScreen} />
         <Stack.Screen name="QRProfile" component={QRProfile} />
-        <Stack.Screen name="Template" component={Template} />
 
       </Stack.Navigator>
     </NavigationContainer>
