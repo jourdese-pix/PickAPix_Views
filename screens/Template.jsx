@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { theme, commonStyles } from '../theme'
+import { Screen } from 'react-native-screens';
+import ScreenWrapper from './ScreenWrapper';
 
 
 const Template = () => {
@@ -8,7 +10,9 @@ const Template = () => {
     const cHello = "Hello";
 
     return (
-    <Text>Hello</Text>    
+    <ScreenWrapper>
+        <Text>Hello</Text>    
+    </ScreenWrapper>
     
     )
 }

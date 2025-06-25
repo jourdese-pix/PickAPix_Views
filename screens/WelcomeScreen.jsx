@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, ScrollView, Pressable, Animated } from 'react-native'
 import React, { useState } from 'react'
 import QRProfile from './QRProfile';
+import { Screen } from 'react-native-screens';
+import ScreenWrapper from './ScreenWrapper';
 
 const ComponentButton = ({ 
     title, 
@@ -66,6 +68,7 @@ const WelcomeScreen = ({ navigation }) => {
     ];
 
     return (
+        <ScreenWrapper>
         <ScrollView style={styles.container}>
             <Text style={styles.header}>PixelMine Components</Text>
             <Text style={styles.subheader}>
@@ -153,6 +156,7 @@ const WelcomeScreen = ({ navigation }) => {
                 <Text style={{ color: '#333', fontSize: 15, marginBottom: 8 }}>
                     This is the QRCode - Business Card component.
                 </Text>
+                <View style={{ gap: 5 }}>
                 <Pressable
                     style={{
                         backgroundColor: '#3700b3',
@@ -171,8 +175,49 @@ const WelcomeScreen = ({ navigation }) => {
                         })
                     }
                 >
-                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Design 1 - Business Card</Text>  
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Design 1 - Business Card</Text>  
                 </Pressable>
+                <Pressable
+                    style={{
+                        backgroundColor: '#3700b3',
+                        padding: 10,
+                        borderRadius: 8,
+                        alignItems: 'center',
+                    }}
+                    onPress={() =>
+                        navigation.navigate('QRProfile1', {
+                        qrCodeUri: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://yourwebsite.com',
+                        name: 'Jourdese Palacio',
+                        title: 'Mobile Developer',
+                        phone: '+63 912 345 6789',
+                        email: 'jourdesepalacio@pixelmine.org',
+                        website: 'https://pixelmine.org',
+                        })
+                    }
+                >
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Design 2 - Business Card</Text>  
+                </Pressable>
+                <Pressable
+                    style={{
+                        backgroundColor: '#3700b3',
+                        padding: 10,
+                        borderRadius: 8,
+                        alignItems: 'center',
+                    }}
+                    onPress={() =>
+                        navigation.navigate('QRProfile2', {
+                        qrCodeUri: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://yourwebsite.com',
+                        name: 'Jourdese Palacio',
+                        title: 'Mobile Developer',
+                        phone: '+63 912 345 6789',
+                        email: 'jourdesepalacio@pixelmine.org',
+                        website: 'https://pixelmine.org',
+                        })
+                    }
+                >  
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Design 3 - Business Card</Text>  
+                </Pressable>
+                </View>
             </>
         )}
                 {component === 'Template' && (
@@ -199,6 +244,7 @@ const WelcomeScreen = ({ navigation }) => {
 ))}
 
         </ScrollView>
+        </ScreenWrapper>
     )
 }
 
