@@ -6,7 +6,9 @@ import Share from 'react-native-share';
 import RNFS from 'react-native-fs';
 import Icon from '../assets/icons/Icon';
 import { wp, hp } from '../helpers/common';
-
+import CameraRoll from '@react-native-community/cameraroll';
+import { Platform } from 'react-native';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 
 const QRProfile2 = ({ route }) => {
@@ -16,16 +18,78 @@ const QRProfile2 = ({ route }) => {
   const now = new Date();
   const shortDate = `${String(now.getFullYear()).slice(2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
   // Download handler
-  const handleDownload = async () => {
-    try {
-      const uri = await viewRef.current.capture();
-      const filePath = `${RNFS.PicturesDirectoryPath}/QR_${safeName}_${shortDate}.png`;
-      await RNFS.moveFile(uri, filePath);
-      Alert.alert('Saved!', `Image saved to: ${filePath}`);
-    } catch (e) {
-      Alert.alert('Error', e.message);
+// const handleDownload = async () => {
+//   try {
+//     // Request permission for iOS
+//     if (Platform.OS === 'ios') {
+//       const result = await request(PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY);
+//       if (result !== RESULTS.GRANTED) {
+//         Alert.alert('Permission denied', 'Cannot save image without photo library permission.');
+//         return;
+//       }
+//     }
+//   try {
+//     const uri = await viewRef.current.capture();
+//     if (Platform.OS === 'ios') {
+//       // CameraRoll expects a file:// URI
+//       const fileUri = uri.startsWith('file://') ? uri : `file://${uri}`;
+//       await CameraRoll.save(fileUri, { type: 'photo' });
+//       Alert.alert('Saved!', 'Image saved to your Photos.');
+//     } else {
+//       const filePath = `${RNFS.PicturesDirectoryPath}/QR_${safeName}_${shortDate}.png`;
+//       await RNFS.moveFile(uri, filePath);
+//       Alert.alert('Saved!', `Image saved to: ${filePath}`);
+//     }
+//   } catch (e) {
+//     Alert.alert('Error', e.message);
+//   }
+//   } catch (e) {
+//     Alert.alert('Error', e.message);
+//   }
+// };
+const handleDownload = async () => {
+  try {
+    // Request permission for iOS
+    if (Platform.OS === 'ios') {
+      const result = await request(PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY);
+      if (result !== RESULTS.GRANTED) {
+        Alert.alert('Permission denied', 'Cannot save image without photo library permission.');
+        return;
+      }
     }
-  };
+    const uri = await viewRef.current.capture();
+    const fileUri = uri.startsWith('file://') ? uri : `file://${uri}`;
+
+    // Check if file exists before saving
+    const exists = await RNFS.exists(uri);
+    if (!exists) {
+      Alert.alert('Error', 'Image file does not exist.');
+      return;
+    }
+
+    await CameraRoll.save(fileUri, { type: 'photo' });
+    Alert.alert('Saved!', 'Image saved to your Photos.');
+  } catch (e) {
+    Alert.alert('Error', e.message || 'Failed to save image.');
+  }
+};
+// const handleDownload = async () => {
+  // try {
+  //   const uri = await viewRef.current.capture();
+  //   if (Platform.OS === 'ios') {
+  //     // CameraRoll expects a file:// URI
+  //     const fileUri = uri.startsWith('file://') ? uri : `file://${uri}`;
+  //     await CameraRoll.save(fileUri, { type: 'photo' });
+  //     Alert.alert('Saved!', 'Image saved to your Photos.');
+  //   } else {
+  //     const filePath = `${RNFS.PicturesDirectoryPath}/QR_${safeName}_${shortDate}.png`;
+  //     await RNFS.moveFile(uri, filePath);
+  //     Alert.alert('Saved!', `Image saved to: ${filePath}`);
+  //   }
+  // } catch (e) {
+  //   Alert.alert('Error', e.message);
+  // }
+// };
 
   // Share handler
   const handleShare = async () => {

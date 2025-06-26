@@ -17,6 +17,10 @@ end
 target 'PickAPix_Views' do
   config = use_native_modules!
 
+permissions_path = '../node_modules/react-native-permissions/ios/'
+pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
+pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
+
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.
