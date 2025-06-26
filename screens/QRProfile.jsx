@@ -1,38 +1,106 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React, { useRef } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import ScreenWrapper from './ScreenWrapper';
+import ViewShot from 'react-native-view-shot';
+import Share from 'react-native-share';
+import RNFS from 'react-native-fs';
 
 const QRProfile = ({ route }) => {
   const { qrCodeUri, name, title, phone, email, website } = route.params;
+  const viewRef = useRef();
+
+  // Download handler
+  const handleDownload = async () => {
+    try {
+      const uri = await viewRef.current.capture();
+      const filePath = `${RNFS.PicturesDirectoryPath}/businesscard_${Date.now()}.png`;
+      await RNFS.moveFile(uri, filePath);
+      Alert.alert('Saved!', `Image saved to: ${filePath}`);
+    } catch (e) {
+      Alert.alert('Error', e.message);
+    }
+  };
+
+  // Share handler
+  const handleShare = async () => {
+    try {
+      const uri = await viewRef.current.capture();
+      await Share.open({
+        url: 'file://' + uri,
+        type: 'image/png',
+      });
+    } catch (e) {
+      if (e.message !== 'User did not share') {
+        Alert.alert('Error', e.message);
+      }
+    }
+  };
+
   return (
     <ScreenWrapper>
-      <View style={styles.logoRow}>
-        <Image
-          source={require('../assets/Logo.png')}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-      </View>
-      <View style={styles.card}>
-        <View style={styles.left}>
-          <Image source={{ uri: qrCodeUri }} style={styles.qrCode} />
+      <ViewShot ref={viewRef} options={{ format: 'png', quality: 1.0 }} >
+        <View style={styles.screenshotbg}>
+          <View style={styles.logoRow}>
+            <Image
+              source={require('../assets/Logo.png')}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
+          <View style={styles.card}>
+            <View style={styles.left}>
+              <Image source={{ uri: qrCodeUri }} style={styles.qrCode} />
+            </View>
+            <View style={styles.right}>
+              <Text style={styles.name}>{name}</Text>
+              <Text style={styles.title}>{title}</Text>
+              <View style={styles.separator} />
+            </View>
+          </View>
+          <View style={styles.contactBlock}>
+            <Text style={styles.detail}>📞 {phone}</Text>
+            <Text style={styles.detail}>✉️ {email}</Text>
+            <Text style={styles.detail}>🌐 {website}</Text>
+          </View>
         </View>
-        <View style={styles.right}>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.title}>{title}</Text>
-          <View style={styles.separator} />
-        </View>
+      </ViewShot>
+        <View style={styles.actions}>
+        <TouchableOpacity style={styles.actionButton} onPress={handleDownload}>
+          <Text style={styles.actionText}>Download QR</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
+          <Text style={styles.actionText}>Share</Text>
+        </TouchableOpacity>
       </View>
-              <View style={styles.contactBlock}>
-                <Text style={styles.detail}>📞 {phone}</Text>
-                <Text style={styles.detail}>✉️ {email}</Text>
-                <Text style={styles.detail}>🌐 {website}</Text>
-              </View>
     </ScreenWrapper>
   );
 };
 
 const styles = StyleSheet.create({
+  screenshotbg: {
+    backgroundColor: '#F2F2F2',
+  },
+actions: {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',      // ← add this to center vertically
+  marginTop: 30,
+  marginRight: 16,
+  gap: 10,                   // works if you're on React Native ≥ 0.71
+},
+  actionButton: {
+    backgroundColor: '#16733e',
+    paddingVertical: 8,
+    paddingHorizontal: 18,
+    borderRadius: 8,
+    marginLeft: 8,
+  },
+  actionText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  // ...rest of your styles
   logoRow: {
     alignItems: 'center',
     marginTop: 36,
@@ -113,23 +181,13 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
-  contactRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  icon: {
-    fontSize: 18,
-    width: 28,
-    textAlign: 'center',
-    color: '#16733e',
-  },
   detail: {
     fontSize: 16,
     color: '#374151',
     marginLeft: 10,
     flexShrink: 1,
     letterSpacing: 0.1,
+    marginBottom: 6,
   },
 });
 
