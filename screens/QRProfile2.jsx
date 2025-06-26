@@ -5,6 +5,7 @@ import ViewShot from 'react-native-view-shot';
 import Share from 'react-native-share';
 import RNFS from 'react-native-fs';
 import Icon from '../assets/icons/Icon';
+import { wp, hp } from '../helpers/common';
 
 
 
@@ -98,15 +99,14 @@ const QRProfile2 = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  
   container: {
     justifyContent: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: wp(6), // ~24 on most phones
   },
   card: {
     width: '100%',
-    borderRadius: 20,
-    padding: 24,
+    borderRadius: wp(5), // responsive border radius
+    padding: wp(6), // responsive padding
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: '#e2e8f0',
@@ -117,53 +117,44 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     elevation: 6,
   },
-  detailRow: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginBottom: 8,
-  },
-  detailRowIcon: {
-    marginBottom: 6,
-  },
   logo: {
-    width: 200,
-    height: 48,
-    marginBottom: 24,
+    width: wp(50), // 50% of screen width
+    height: hp(6), // 6% of screen height
+    marginBottom: hp(3),
     alignSelf: 'center',
   },
   qrCode: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
+    width: wp(40), // 40% of screen width
+    height: wp(40), // keep square
+    marginBottom: hp(2.5),
   },
   name: {
-    fontSize: 24,
+    fontSize: wp(6), // responsive font size
     fontWeight: '700',
     color: '#1f2937',
     letterSpacing: 0.3,
     marginBottom: 2,
   },
   title: {
-    fontSize: 16,
+    fontSize: wp(4), // responsive font size
     color: '#6b7280',
-    marginBottom: 16,
+    marginBottom: hp(2),
   },
   separator: {
     height: 1,
     width: '85%',
     backgroundColor: '#e5e7eb',
-    marginVertical: 16,
+    marginVertical: hp(2),
   },
   contactBlock: {
     width: '100%',
-    paddingHorizontal: 10,
+    paddingHorizontal: wp(2.5),
   },
   detail: {
-    fontSize: 15,
+    fontSize: wp(3.8),
     color: '#374151',
-    marginBottom: 8,
+    marginBottom: hp(1),
     letterSpacing: 0.2,
-    
   },
   screenshotbg: {
     backgroundColor: 'transparent', 
@@ -172,21 +163,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',      
-    marginTop: 30,
-    marginRight: 16,
+    marginTop: hp(4),
+    marginRight: wp(4),
     gap: 10,                 
   },
   actionButton: {
     backgroundColor: '#16733e',
-    paddingVertical: 8,
-    paddingHorizontal: 18,
-    borderRadius: 8,
-    marginLeft: 8,
+    paddingVertical: hp(1),
+    paddingHorizontal: wp(5),
+    borderRadius: wp(2),
+    marginLeft: wp(2),
   },
   actionText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: wp(4),
+  },
+  detailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: hp(1),
+  },
+  detailRowIcon: {
+    marginBottom: 6,
   },
 });
 

@@ -1,6 +1,7 @@
 import {View, Text} from 'react-native'
 import React from 'react'
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {hp, wp} from "../helpers/common";
 
 const ScreenWrapper = ({children, bg}) => {
 
