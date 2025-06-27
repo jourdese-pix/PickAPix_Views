@@ -207,7 +207,8 @@ const WelcomeScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate('QRProfile2', { 
                     qrCodeUri: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://yourwebsite.com',
                         name: 'Jourdese Palacio',
-                        title: 'Mobile Developer',
+                        title: 'React Native Developer',
+                        cardtitle: 'Business Card',
                         phone: '+63 912 345 6789',
                         email: 'jourdesepalacio@pixelmine.org',
                         website: 'https://pixelmine.org',

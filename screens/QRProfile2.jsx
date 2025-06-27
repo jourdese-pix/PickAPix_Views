@@ -13,7 +13,7 @@ import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 const QRProfile2 = ({ route }) => {
   const viewRef = useRef();
-  const { qrCodeUri, name, title, phone, email, website } = route.params;
+  const { qrCodeUri, name, title, phone, email, website, cardtitle} = route.params;
   const safeName = name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
   const now = new Date();
   const shortDate = `${String(now.getFullYear()).slice(2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
@@ -118,7 +118,9 @@ const handleDownload = async () => {
                 style={styles.logo}
                 resizeMode="contain"
               />
-
+              <View style={styles.cardTitleContainer}>
+                <Text style={styles.cardTitleText}>{cardtitle}</Text>
+              </View>
               <Image source={{ uri: qrCodeUri }} style={styles.qrCode} />
 
               <Text style={styles.name}>{name}</Text>
@@ -251,6 +253,27 @@ const styles = StyleSheet.create({
   detailRowIcon: {
     marginBottom: 6,
   },
+cardTitleContainer: {
+  marginBottom: hp(2),
+  paddingVertical: hp(1),
+  paddingHorizontal: wp(6),
+  backgroundColor: '#e6f4ea',
+  borderRadius: wp(3),
+  alignSelf: 'center',
+  shadowColor: '#16733e',
+  shadowOpacity: 0.09,
+  shadowRadius: 6,
+  shadowOffset: { width: 0, height: 2 },
+  elevation: 2,
+},
+cardTitleText: {
+  fontSize: wp(3),
+  fontWeight: 'bold',
+  color: '#16733e',
+  letterSpacing: 1,
+  textAlign: 'center',
+  textTransform: 'uppercase',
+},
 });
 
 export default QRProfile2;
